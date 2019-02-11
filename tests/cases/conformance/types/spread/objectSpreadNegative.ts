@@ -29,14 +29,13 @@ spread = b; // error, missing 's'
 let duplicated = { b: 'bad', ...o, b: 'bad', ...o2, b: 'bad' }
 let duplicatedSpread = { ...o, ...o }
 
-// null, undefined and primitives are not allowed
-let spreadNull = { ...null };
-let spreadUndefind = { ...undefined };
+// primitives are not allowed, except for falsy ones
 let spreadNum = { ...12 };
 let spreadSum = { ...1 + 1 };
-spreadSum.toFixed(); // error, no methods from number
-let spreadBool = { ...false };
-spreadBool.valueOf(); // error, what were you thinking?
+let spreadZero = { ...0 };
+spreadZero.toFixed(); // error, no methods even from a falsy number
+let spreadBool = { ...true };
+spreadBool.valueOf();
 let spreadStr = { ...'foo' };
 spreadStr.length; // error, no 'length'
 spreadStr.charAt(1); // error, no methods either
@@ -54,18 +53,7 @@ let c: C = new C()
 let spreadC = { ...c }
 spreadC.m(); // error 'm' is not in '{ ... c }'
 
-// generics
-function f<T, U>(t: T, u: U) {
-    return { ...t, ...u, id: 'id' };
-}
-function override<U>(initial: U, override: U): U {
-    return { ...initial, ...override };
-}
-let exclusive: { id: string, a: number, b: string, c: string, d: boolean } =
-    f({ a: 1, b: 'yes' }, { c: 'no', d: false })
-let overlap: { id: string, a: number, b: string } =
-    f({ a: 1 }, { a: 2, b: 'extra' })
-let overlapConflict: { id:string, a: string } =
-    f({ a: 1 }, { a: 'mismatch' })
-let overwriteId: { id: string, a: number, c: number, d: string } =
-    f({ a: 1, id: true }, { c: 1, d: 'no' })
+// non primitive
+let obj: object = { a: 123 };
+let spreadObj = { ...obj };
+spreadObj.a; // error 'a' is not in {}

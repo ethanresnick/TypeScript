@@ -1,13 +1,14 @@
 language: node_js
 
 node_js:
-  - 'stable'
-  - '4'
+  - 'node'
+  - '10'
+  - '6'
 
 sudo: false
 
 env:
-  - workerCount=3
+  - workerCount=3 timeout=600000
 
 matrix:
   fast_finish: true
@@ -15,13 +16,12 @@ matrix:
 branches:
   only:
   - master
-  - release-2.1
+  - /^release-.*/
 
 install:
-  - npm uninstall typescript
-  - npm uninstall tslint
+  - npm uninstall typescript --no-save
+  - npm uninstall tslint --no-save
   - npm install
-  - npm update
 
 cache:
   directories:

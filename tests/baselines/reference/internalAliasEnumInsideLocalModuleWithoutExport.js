@@ -15,6 +15,7 @@ export module c {
 
 //// [internalAliasEnumInsideLocalModuleWithoutExport.js]
 "use strict";
+exports.__esModule = true;
 var a;
 (function (a) {
     var weekend;
@@ -36,7 +37,7 @@ export declare module a {
     enum weekend {
         Friday = 0,
         Saturday = 1,
-        Sunday = 2,
+        Sunday = 2
     }
 }
 export declare module c {

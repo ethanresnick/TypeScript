@@ -27,11 +27,19 @@ module M.P {
 }
 
 //// [declarationEmitNameConflicts3.js]
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var M;
 (function (M) {
     var D;
@@ -53,17 +61,17 @@ var M;
 (function (M) {
     var P;
     (function (P) {
-        var C = (function () {
+        var C = /** @class */ (function () {
             function C() {
             }
             C.f = function () { };
             return C;
         }());
         P.C = C;
-        var E = (function (_super) {
+        var E = /** @class */ (function (_super) {
             __extends(E, _super);
             function E() {
-                return _super.apply(this, arguments) || this;
+                return _super !== null && _super.apply(this, arguments) || this;
             }
             return E;
         }(C));
@@ -100,7 +108,7 @@ declare module M.P {
     class E extends C {
     }
     enum D {
-        f = 0,
+        f = 0
     }
     var v: M.D;
     var w: typeof M.D.f;

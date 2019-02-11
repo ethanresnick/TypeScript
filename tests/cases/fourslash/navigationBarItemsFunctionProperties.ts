@@ -6,10 +6,6 @@
 //// .a = function() { };
 //// })();
 
-function navExact(name: string, kind: string) {
-	return;
-}
-
 verify.navigationTree(
 {
   "text": "<global>",
@@ -20,12 +16,12 @@ verify.navigationTree(
       "kind": "function",
       "childItems": [
         {
-          "text": "A",
-          "kind": "var"
+          "text": "a",
+          "kind": "function"
         },
         {
-          "text": "A.a",
-          "kind": "function"
+          "text": "A",
+          "kind": "var"
         }
       ]
     }

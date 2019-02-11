@@ -29,14 +29,13 @@ spread = b; // error, missing 's'
 let duplicated = { b: 'bad', ...o, b: 'bad', ...o2, b: 'bad' }
 let duplicatedSpread = { ...o, ...o }
 
-// null, undefined and primitives are not allowed
-let spreadNull = { ...null };
-let spreadUndefind = { ...undefined };
+// primitives are not allowed, except for falsy ones
 let spreadNum = { ...12 };
 let spreadSum = { ...1 + 1 };
-spreadSum.toFixed(); // error, no methods from number
-let spreadBool = { ...false };
-spreadBool.valueOf(); // error, what were you thinking?
+let spreadZero = { ...0 };
+spreadZero.toFixed(); // error, no methods even from a falsy number
+let spreadBool = { ...true };
+spreadBool.valueOf();
 let spreadStr = { ...'foo' };
 spreadStr.length; // error, no 'length'
 spreadStr.charAt(1); // error, no methods either
@@ -54,40 +53,32 @@ let c: C = new C()
 let spreadC = { ...c }
 spreadC.m(); // error 'm' is not in '{ ... c }'
 
-// generics
-function f<T, U>(t: T, u: U) {
-    return { ...t, ...u, id: 'id' };
-}
-function override<U>(initial: U, override: U): U {
-    return { ...initial, ...override };
-}
-let exclusive: { id: string, a: number, b: string, c: string, d: boolean } =
-    f({ a: 1, b: 'yes' }, { c: 'no', d: false })
-let overlap: { id: string, a: number, b: string } =
-    f({ a: 1 }, { a: 2, b: 'extra' })
-let overlapConflict: { id:string, a: string } =
-    f({ a: 1 }, { a: 'mismatch' })
-let overwriteId: { id: string, a: number, c: number, d: string } =
-    f({ a: 1, id: true }, { c: 1, d: 'no' })
+// non primitive
+let obj: object = { a: 123 };
+let spreadObj = { ...obj };
+spreadObj.a; // error 'a' is not in {}
 
 
 //// [objectSpreadNegative.js]
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 var o = { a: 1, b: 'no' };
 /// private propagates
-var PrivateOptionalX = (function () {
+var PrivateOptionalX = /** @class */ (function () {
     function PrivateOptionalX() {
     }
     return PrivateOptionalX;
 }());
-var PublicX = (function () {
+var PublicX = /** @class */ (function () {
     function PublicX() {
     }
     return PublicX;
@@ -108,14 +99,13 @@ spread = b; // error, missing 's'
 // literal repeats are not allowed, but spread repeats are fine
 var duplicated = __assign({ b: 'bad' }, o, { b: 'bad' }, o2, { b: 'bad' });
 var duplicatedSpread = __assign({}, o, o);
-// null, undefined and primitives are not allowed
-var spreadNull = __assign({}, null);
-var spreadUndefind = __assign({}, undefined);
+// primitives are not allowed, except for falsy ones
 var spreadNum = __assign({}, 12);
 var spreadSum = __assign({}, 1 + 1);
-spreadSum.toFixed(); // error, no methods from number
-var spreadBool = __assign({}, false);
-spreadBool.valueOf(); // error, what were you thinking?
+var spreadZero = __assign({}, 0);
+spreadZero.toFixed(); // error, no methods even from a falsy number
+var spreadBool = __assign({}, true);
+spreadBool.valueOf();
 var spreadStr = __assign({}, 'foo');
 spreadStr.length; // error, no 'length'
 spreadStr.charAt(1); // error, no methods either
@@ -126,7 +116,7 @@ spreadFunc(); // error, no call signature
 var setterOnly = __assign({ set b(bad) { } });
 setterOnly.b = 12; // error, 'b' does not exist
 // methods are skipped because they aren't enumerable
-var C = (function () {
+var C = /** @class */ (function () {
     function C() {
         this.p = 1;
     }
@@ -136,14 +126,7 @@ var C = (function () {
 var c = new C();
 var spreadC = __assign({}, c);
 spreadC.m(); // error 'm' is not in '{ ... c }'
-// generics
-function f(t, u) {
-    return __assign({}, t, u, { id: 'id' });
-}
-function override(initial, override) {
-    return __assign({}, initial, override);
-}
-var exclusive = f({ a: 1, b: 'yes' }, { c: 'no', d: false });
-var overlap = f({ a: 1 }, { a: 2, b: 'extra' });
-var overlapConflict = f({ a: 1 }, { a: 'mismatch' });
-var overwriteId = f({ a: 1, id: true }, { c: 1, d: 'no' });
+// non primitive
+var obj = { a: 123 };
+var spreadObj = __assign({}, obj);
+spreadObj.a; // error 'a' is not in {}

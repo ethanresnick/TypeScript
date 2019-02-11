@@ -1,5 +1,4 @@
 //// [systemModule13.ts]
-
 export let [x,y,z] = [1, 2, 3];
 export const {a: z0, b: {c: z1}} = {a: true, b: {c: "123"}};
 for ([x] of [[1]]) {}
@@ -7,8 +6,8 @@ for ([x] of [[1]]) {}
 //// [systemModule13.js]
 System.register([], function (exports_1, context_1) {
     "use strict";
+    var _a, _b, x, y, z, z0, z1;
     var __moduleName = context_1 && context_1.id;
-    var x, y, z, z0, z1, _a, _b;
     return {
         setters: [],
         execute: function () {
